@@ -114,7 +114,7 @@ h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 3.4
   background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
   display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden;
 }
-.card-body { padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; max-width: 760px; }
+.card-body { padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; }
 .card h3 { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; margin: 0; text-wrap: balance; }
 .card h3 small { display: block; font-family: var(--f-mono); font-weight: 400; font-size: 13px; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
 .card p { margin: 0; color: var(--muted); }
@@ -175,6 +175,19 @@ h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 3.4
 .pill.ok { color: var(--b-matcha); } .pill.home { color: var(--b-astro); } .pill.bed { color: var(--b-adl); }
 .roles { display: flex; gap: 6px; margin-top: 10px; }
 .roles span { font-family: var(--f-mono); font-size: 10px; background: var(--chip); border-radius: 5px; padding: 2px 6px; }
+
+.detail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 32px; border-top: 1px solid var(--line); padding-top: 18px; }
+.dblock { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.dblock.wide { grid-column: 1 / -1; }
+.dblock h4 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--c); font-weight: 600; }
+.dblock p { color: var(--ink); max-width: 72ch; }
+.dblock ol, .dblock ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15px; line-height: 1.6; }
+.dblock ol { counter-reset: step; }
+.dblock ol li { counter-increment: step; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; }
+.dblock ol li::before { content: counter(step); font-family: var(--f-mono); font-size: 12px; font-weight: 600; color: var(--c); padding-top: 2px; }
+.dblock ul li { padding-left: 18px; position: relative; color: var(--muted); }
+.dblock ul li::before { content: ""; position: absolute; left: 2px; top: .75em; width: 7px; height: 2px; background: var(--c); }
+@media (max-width: 720px) { .detail { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Stack ---------- */
 .stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
@@ -279,12 +292,31 @@ footer { color: var(--muted); }
           <div class="card-body">
             <h3>Matcha Kon Raeng Feedback<small>matcha-kon-raeng-feedback</small></h3>
             <p>เว็บแอปเก็บรีวิวจากลูกค้าร้านมัทฉะคนแรง ลูกค้าสแกน QR บนออเดอร์ ให้ดาวและคอมเมนต์ได้ในไม่กี่วินาที เจ้าของร้านดูภาพรวมได้จากแดชบอร์ด</p>
-            <ul class="feat">
-              <li>ให้คะแนน 1–5 ดาว ใส่ชื่อได้แบบไม่บังคับ รีวิวแสดงต่อสาธารณะ</li>
-              <li>แดชบอร์ดเจ้าของร้าน: คะแนนเฉลี่ย กราฟกระจายคะแนน รีวิวทั้งหมด</li>
-              <li>หน้า admin ล็อกอินด้วย PIN และคุกกี้ที่เซ็นด้วย secret</li>
-              <li>Auto-deploy บน Railway ทุกครั้งที่ push ขึ้น main</li>
-            </ul>
+            <div class="detail">
+              <div class="dblock wide">
+                <h4>โจทย์</h4>
+                <p>ร้านมัทฉะคนแรงขายผ่านเดลิเวอรี จึงไม่เคยได้คุยกับลูกค้าตรงๆ และไม่รู้ว่าลูกค้าชอบหรือไม่ชอบอะไร รีวิวบนแอปเดลิเวอรีก็มีน้อยและร้านเข้าไปดูรายละเอียดไม่ได้</p>
+              </div>
+              <div class="dblock">
+                <h4>ลูกค้าใช้งานยังไง</h4>
+                <ol>
+                  <li>ร้านแปะ QR code ไว้กับออเดอร์ ลูกค้าสแกนแล้วเข้าหน้ารีวิวได้ทันที ไม่ต้องลงแอปหรือสมัครสมาชิก</li>
+                  <li>กดให้ 1–5 ดาว ใส่ชื่อหรือไม่ใส่ก็ได้ แล้วพิมพ์ความเห็นสั้นๆ</li>
+                  <li>รีวิวขึ้นในหน้าเดียวกันทันที ลูกค้าคนอื่นเห็นได้</li>
+                  <li>เจ้าของร้านเข้า /admin ใส่ PIN แล้วดูคะแนนเฉลี่ย กราฟกระจายคะแนน และรีวิวทั้งหมดเรียงจากใหม่ไปเก่า</li>
+                </ol>
+              </div>
+              <div class="dblock">
+                <h4>เบื้องหลังทางเทคนิค</h4>
+                <ul>
+                  <li>Express API สองเส้นหลัก คือ GET และ POST /api/reviews ตรวจว่าคะแนนเป็นจำนวนเต็ม 1–5 และตัดชื่อไว้ที่ 60 ตัวอักษร ความเห็นที่ 500 ตัวอักษร</li>
+                  <li>ตาราง reviews ใน PostgreSQL มี CHECK constraint บังคับช่วงคะแนนซ้ำอีกชั้นที่ฐานข้อมูล ใช้ parameterized query กัน SQL injection</li>
+                  <li>กันสแปมด้วย cooldown 8 วินาทีต่อ IP อ่าน IP จริงจาก X-Forwarded-For เพราะแอปอยู่หลัง proxy ของ Railway</li>
+                  <li>หน้า admin ใช้คุกกี้แบบ signed + httpOnly + sameSite อายุ 12 ชั่วโมง ไม่ต้องมีระบบผู้ใช้เต็มรูปแบบ</li>
+                  <li>หน้ารีวิวเปิดได้เฉพาะลิงก์ที่มาจาก QR (?qr=1) กันคนนอกที่ไม่ได้สั่งจริงเข้ามารีวิว</li>
+                </ul>
+              </div>
+            </div>
             <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">PostgreSQL</span><span class="tag">Vanilla JS</span><span class="tag">Railway</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/matcha-kon-raeng-feedback" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
           </div>
@@ -298,12 +330,31 @@ footer { color: var(--muted); }
           <div class="card-body">
             <h3>Astrohouse Cafe เมนูดิจิทัล<small>AstroHouse</small></h3>
             <p>สมุดเมนูดิจิทัลของคาเฟ่ที่พลิกหน้าได้เหมือนเมนูจริง ลูกค้าเลือกอาหารใส่ตะกร้า เขียนหมายเหตุ แล้วส่งออเดอร์เป็นข้อความ LINE ไปที่ร้าน</p>
-            <ul class="feat">
-              <li>เอฟเฟกต์พลิกหน้าสมุดเมนู แบ่งหมวดของคาว ของหวาน และเครื่องดื่ม</li>
-              <li>ตะกร้าสินค้าพร้อมหมายเหตุต่อออเดอร์ และ QR code</li>
-              <li>สร้างข้อความสั่งอาหารส่งเข้า LINE ของร้าน</li>
-              <li>Build เป็น Flutter Web แล้ว deploy ขึ้น GitHub Pages อัตโนมัติผ่าน GitHub Actions</li>
-            </ul>
+            <div class="detail">
+              <div class="dblock wide">
+                <h4>โจทย์</h4>
+                <p>คาเฟ่อยากได้เมนูที่ดูหรูเหมือนสมุดเมนูจริง ใช้ได้ทั้งบนแท็บเล็ตในร้านและบนมือถือลูกค้า และอยากให้ลูกค้าสั่งอาหารได้เองโดยไม่ต้องรอพนักงานมาจด</p>
+              </div>
+              <div class="dblock">
+                <h4>ลูกค้าใช้งานยังไง</h4>
+                <ol>
+                  <li>เปิดเมนูบนแท็บเล็ตในร้าน หรือสแกน QR ในหน้าแรกเพื่อเปิดบนมือถือตัวเอง</li>
+                  <li>ปัดพลิกหน้าเหมือนเปิดสมุดจริง เมนูแบ่งเป็นเครื่องดื่ม อาหาร และของหวาน รวมหลายสิบหมวดย่อย ตั้งแต่อาหารเช้า สเต๊ก ญี่ปุ่น ไปจนถึงอาหารไทย</li>
+                  <li>กดเพิ่มเมนูลงตะกร้า เลือกตัวเลือกย่อยได้ (เช่น แบบทะเล) ปรับจำนวน และเขียนหมายเหตุรายจาน เช่น ไม่ใส่ผัก เผ็ดน้อย</li>
+                  <li>กดส่งออเดอร์ แอปสร้างข้อความสรุปรายการและราคารวม แล้วเปิด LINE Official Account ของร้านพร้อมข้อความนั้นให้กดส่งได้เลย</li>
+                </ol>
+              </div>
+              <div class="dblock">
+                <h4>เบื้องหลังทางเทคนิค</h4>
+                <ul>
+                  <li>เขียนด้วย Flutter แล้ว build เป็นเว็บ ใช้ package page_flip ทำเอฟเฟกต์พลิกหน้า และ Google Fonts (Cinzel, Playfair Display, Lora) ให้ได้อารมณ์เมนูพรีเมียม</li>
+                  <li>CartService ใช้ ChangeNotifier จัดการ state ของตะกร้า แยกรายการตามชื่อจานรวมกับตัวเลือก ถ้าสั่งซ้ำจะเพิ่มจำนวนแทนการเพิ่มบรรทัดใหม่</li>
+                  <li>ส่งออเดอร์ผ่าน deep link line://oaMessage และมีลิงก์ line.me เป็นทางสำรองเมื่อเครื่องไม่ได้ลง LINE</li>
+                  <li>ข้อมูลเมนูและราคาอยู่ในไฟล์เดียว (menu_data.dart) ร้านแก้ราคาหรือเพิ่มเมนูได้ง่าย</li>
+                  <li>ทุกครั้งที่ push, GitHub Actions จะ build และ deploy ขึ้น GitHub Pages ให้อัตโนมัติ ใช้งานฟรีและไม่มีวันหมดอายุ</li>
+                </ul>
+              </div>
+            </div>
             <div class="tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">page_flip</span><span class="tag">GitHub Pages</span><span class="tag">GitHub Actions</span></div>
             <div class="card-links">
               <a href="https://combo0445.github.io/AstroHouse/" target="_blank" rel="noopener">เปิดเว็บจริง ↗</a>
@@ -320,12 +371,41 @@ footer { color: var(--muted); }
           <div class="card-body">
             <h3>ระบบประเมินผู้สูงอายุที่มีภาวะพึ่งพิง<small>Project_finish</small></h3>
             <p>เว็บแอปที่เปลี่ยนแบบประเมินสุขภาพผู้สูงอายุจากกระดาษเป็นดิจิทัล ให้เจ้าหน้าที่สาธารณสุขลงพื้นที่เก็บข้อมูล และให้แพทย์สั่งแผนการดูแลต่อได้ในระบบเดียว</p>
-            <ul class="feat">
-              <li>แบบประเมินมาตรฐาน 3 ชุด: Barthel ADL, Care Giver (กว่า 37 มิติ) และ TAI จัดกลุ่มติดสังคม/ติดบ้าน/ติดเตียงอัตโนมัติ</li>
-              <li>สิทธิ์ตามบทบาท Admin, Staff และ Doctor พร้อม audit log</li>
-              <li>แพทย์ออกคำสั่งการดูแล (Care Instruction) และติดตามสถานะการรับทราบ</li>
-              <li>แดชบอร์ดสถิติ แผนที่ตำแหน่งผู้สูงอายุ และออกรายงาน PDF</li>
-            </ul>
+            <div class="detail">
+              <div class="dblock wide">
+                <h4>โจทย์</h4>
+                <p>เจ้าหน้าที่สาธารณสุขต้องลงพื้นที่ประเมินผู้สูงอายุที่มีภาวะพึ่งพิงด้วยแบบฟอร์มกระดาษ ข้อมูลกระจัดกระจาย สรุปสถิติยาก และแพทย์ติดตามผลหรือสั่งการดูแลต่อได้ช้า</p>
+              </div>
+              <div class="dblock">
+                <h4>ระบบทำงานยังไง</h4>
+                <ol>
+                  <li>เจ้าหน้าที่ (Staff) ลงทะเบียนผู้สูงอายุพร้อมที่อยู่และพิกัดบ้านบนแผนที่</li>
+                  <li>ทำแบบประเมินมาตรฐาน 3 ชุด: Barthel ADL (10 ด้าน), Care Giver (ข้อมูลผู้ดูแลกว่า 37 มิติ) และ TAI ระบบคิดคะแนนและจัดกลุ่มติดสังคม ติดบ้าน หรือติดเตียงให้อัตโนมัติ</li>
+                  <li>แพทย์ (Doctor) ดูประวัติรายบุคคล แล้วออกคำสั่งการดูแล (Care Instruction) ส่งให้เจ้าหน้าที่</li>
+                  <li>เจ้าหน้าที่กดยืนยันรับทราบ สถานะเปลี่ยนจากรอยืนยันเป็นรับทราบแล้ว ทุกการกระทำถูกบันทึกใน audit log</li>
+                  <li>ผู้ดูแลระบบ (Admin) จัดการผู้ใช้ ข่าวประกาศ และแบนเนอร์ ส่วนผู้บริหารดูแดชบอร์ดสถิติตามช่วงวัยและกลุ่มสุขภาพ แล้วออกรายงานเป็น PDF</li>
+                </ol>
+              </div>
+              <div class="dblock">
+                <h4>เบื้องหลังทางเทคนิค</h4>
+                <ul>
+                  <li>Laravel 10 แบบ MVC มี middleware แยกสิทธิ์ตามบทบาท (IsAdmin, IsStaff, IsDoctor) และ middleware เพิ่ม security header</li>
+                  <li>บันทึกข้อมูลหลายตารางใน DB::transaction() ถ้าพังกลางทางจะไม่เหลือข้อมูลครึ่งๆ กลางๆ และใช้ Soft Delete กับข้อมูลทางการแพทย์ เพื่อไม่ให้ประวัติหายถาวร</li>
+                  <li>ใช้ Eager Loading แก้ปัญหา N+1 query และ paginate ทุกตารางใหญ่แทนการดึงข้อมูลทั้งหมด</li>
+                  <li>สร้าง PDF ด้วย mPDF แสดงตารางด้วย DataTables และเขียนข่าวด้วย Quill Editor</li>
+                  <li>มี Dockerfile และคู่มือ deploy 4 แบบ: Railway, Docker, VPS และ cPanel</li>
+                </ul>
+              </div>
+              <div class="dblock">
+                <h4>บั๊กที่เจอและแก้ก่อน deploy</h4>
+                <ul>
+                  <li>ฟอร์มแบบหลายขั้นตอนกดไปขั้นถัดไปไม่ได้ เพราะ JavaScript อ้างอิง element ID ที่ไม่มีอยู่จริง</li>
+                  <li>บั๊กที่เกิดเฉพาะบน Linux: Windows ไม่สนตัวพิมพ์เล็ก-ใหญ่ของชื่อไฟล์ แต่ Linux สน จึงเขียนสคริปต์ไล่ตรวจชื่อ view ทั้งระบบในครั้งเดียว</li>
+                  <li>session หมดอายุแล้วขึ้น error 500 แทนที่จะพาไปหน้า login เพราะ route login ไม่ได้ตั้งชื่อไว้</li>
+                  <li>ทุกการแก้ยืนยันด้วยการ compile view ทั้งระบบ และทดสอบผ่าน HTTP จริงใน Docker</li>
+                </ul>
+              </div>
+            </div>
             <div class="tags"><span class="tag">Laravel 10</span><span class="tag">PHP 8.1</span><span class="tag">MySQL 8</span><span class="tag">Bootstrap</span><span class="tag">DataTables</span><span class="tag">mPDF</span><span class="tag">Docker</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/Project_finish" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
           </div>
@@ -338,13 +418,33 @@ footer { color: var(--muted); }
           <div class="card-body">
             <h3>RC Rent ระบบเช่ารถ<small>rc_rent</small></h3>
             <p>เว็บแอปเช่ารถแบบ full-stack แยก frontend React กับ REST API ที่เขียนด้วย Express ผู้ใช้ค้นหารถ จอง และดูประวัติการเช่าของตัวเองได้</p>
-            <ul class="feat">
-              <li>สมัครสมาชิก ล็อกอิน และหน้าที่ต้องล็อกอินก่อนเข้า (Protected Route)</li>
-              <li>ค้นหาและกรองรถ จองรถ ดูประวัติการเช่า หน้าโปรไฟล์</li>
-              <li>หลังบ้านสำหรับแอดมินจัดการรถ พร้อม middleware ตรวจสิทธิ์และตรวจข้อมูลขาเข้า</li>
-              <li>สลับภาษาไทย/อังกฤษ และ CI ด้วย GitHub Actions</li>
-            </ul>
-            <div class="tags"><span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">React Router</span><span class="tag">Express</span><span class="tag">GitHub Actions</span></div>
+            <div class="detail">
+              <div class="dblock wide">
+                <h4>โจทย์</h4>
+                <p>ฝึกสร้างระบบเว็บแบบ full-stack ที่แยก frontend กับ backend ชัดเจน มีระบบสมาชิก สิทธิ์ผู้ดูแล และขั้นตอนการจองที่ต้องเช็กข้อมูลให้ถูกต้องเหมือนระบบเช่ารถจริง</p>
+              </div>
+              <div class="dblock">
+                <h4>ผู้ใช้ใช้งานยังไง</h4>
+                <ol>
+                  <li>สมัครสมาชิกและล็อกอิน หน้าที่ต้องล็อกอินก่อน เช่น การจองและประวัติการเช่า จะพาไปหน้า login อัตโนมัติ</li>
+                  <li>ดูรายการรถ ค้นหาและกรองตามที่ต้องการ แล้วกดเช่า</li>
+                  <li>ดูประวัติการเช่าของตัวเองในหน้า My Rentals และยกเลิกรายการได้</li>
+                  <li>แอดมินเพิ่ม แก้ไข และลบข้อมูลรถได้ ผู้ใช้ทั่วไปทำไม่ได้</li>
+                  <li>สลับภาษาไทย/อังกฤษได้ทั้งแอป</li>
+                </ol>
+              </div>
+              <div class="dblock">
+                <h4>เบื้องหลังทางเทคนิค</h4>
+                <ul>
+                  <li>Frontend: React 19 + TypeScript + Vite ใช้ React Router และ Context แยกสถานะผู้ใช้ (AuthContext) กับภาษา (i18n)</li>
+                  <li>Backend: Express 5 แยก route เป็น auth, cars, rentals และ users เข้ารหัสรหัสผ่านด้วย bcrypt ส่ง JWT ผ่านคุกกี้ httpOnly</li>
+                  <li>ฐานข้อมูล MySQL ใช้ stored procedure สำหรับสร้าง ดู และยกเลิกการเช่า ทำให้ logic สำคัญอยู่ที่ฐานข้อมูล</li>
+                  <li>ตรวจข้อมูลขาเข้าด้วย express-validator และใช้ middleware adminOnly กันไม่ให้ผู้ใช้ทั่วไปแก้ข้อมูลรถ ใส่ helmet และจำกัด CORS ให้เฉพาะ frontend</li>
+                  <li>CI บน GitHub Actions รัน lint, เช็ก format ด้วย Prettier และ build ทุกครั้งที่ push</li>
+                </ul>
+              </div>
+            </div>
+            <div class="tags"><span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">React Router</span><span class="tag">Express</span><span class="tag">MySQL</span><span class="tag">JWT</span><span class="tag">GitHub Actions</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/rc_rent" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
           </div>
         </article>
@@ -395,6 +495,58 @@ footer { color: var(--muted); }
 <script>
 // Thai text on the page is the source; each text node is looked up here by its trimmed content.
 const EN = {
+  "โจทย์": "The problem",
+  "ลูกค้าใช้งานยังไง": "How customers use it",
+  "ระบบทำงานยังไง": "How the system works",
+  "ผู้ใช้ใช้งานยังไง": "How users use it",
+  "เบื้องหลังทางเทคนิค": "Under the hood",
+  "บั๊กที่เจอและแก้ก่อน deploy": "Bugs found and fixed before deploy",
+  "ร้านมัทฉะคนแรงขายผ่านเดลิเวอรี จึงไม่เคยได้คุยกับลูกค้าตรงๆ และไม่รู้ว่าลูกค้าชอบหรือไม่ชอบอะไร รีวิวบนแอปเดลิเวอรีก็มีน้อยและร้านเข้าไปดูรายละเอียดไม่ได้": "Matcha Kon Raeng sells through delivery apps, so the shop never talks to customers directly and doesn't know what they like or dislike. Delivery app reviews are few, and the shop can't see the details.",
+  "ร้านแปะ QR code ไว้กับออเดอร์ ลูกค้าสแกนแล้วเข้าหน้ารีวิวได้ทันที ไม่ต้องลงแอปหรือสมัครสมาชิก": "The shop attaches a QR code to each order. Customers scan it and land on the review page, with no app or sign-up.",
+  "กดให้ 1–5 ดาว ใส่ชื่อหรือไม่ใส่ก็ได้ แล้วพิมพ์ความเห็นสั้นๆ": "They tap 1–5 stars, add a name if they want, and write a short comment.",
+  "รีวิวขึ้นในหน้าเดียวกันทันที ลูกค้าคนอื่นเห็นได้": "The review appears on the same page right away for other customers to see.",
+  "เจ้าของร้านเข้า /admin ใส่ PIN แล้วดูคะแนนเฉลี่ย กราฟกระจายคะแนน และรีวิวทั้งหมดเรียงจากใหม่ไปเก่า": "The owner opens /admin, enters a PIN, and sees the average score, the rating distribution, and every review, newest first.",
+  "Express API สองเส้นหลัก คือ GET และ POST /api/reviews ตรวจว่าคะแนนเป็นจำนวนเต็ม 1–5 และตัดชื่อไว้ที่ 60 ตัวอักษร ความเห็นที่ 500 ตัวอักษร": "Two main Express endpoints, GET and POST /api/reviews. The server checks the rating is an integer from 1 to 5 and caps names at 60 characters and comments at 500.",
+  "ตาราง reviews ใน PostgreSQL มี CHECK constraint บังคับช่วงคะแนนซ้ำอีกชั้นที่ฐานข้อมูล ใช้ parameterized query กัน SQL injection": "The PostgreSQL reviews table enforces the rating range again with a CHECK constraint, and all queries are parameterized against SQL injection.",
+  "กันสแปมด้วย cooldown 8 วินาทีต่อ IP อ่าน IP จริงจาก X-Forwarded-For เพราะแอปอยู่หลัง proxy ของ Railway": "Spam protection with an 8-second cooldown per IP, read from X-Forwarded-For because the app runs behind Railway's proxy.",
+  "หน้า admin ใช้คุกกี้แบบ signed + httpOnly + sameSite อายุ 12 ชั่วโมง ไม่ต้องมีระบบผู้ใช้เต็มรูปแบบ": "The admin area uses a signed, httpOnly, sameSite cookie that lasts 12 hours, so no full user system is needed.",
+  "หน้ารีวิวเปิดได้เฉพาะลิงก์ที่มาจาก QR (?qr=1) กันคนนอกที่ไม่ได้สั่งจริงเข้ามารีวิว": "The review page only opens from the QR link (?qr=1), which keeps out people who didn't actually order.",
+  "คาเฟ่อยากได้เมนูที่ดูหรูเหมือนสมุดเมนูจริง ใช้ได้ทั้งบนแท็บเล็ตในร้านและบนมือถือลูกค้า และอยากให้ลูกค้าสั่งอาหารได้เองโดยไม่ต้องรอพนักงานมาจด": "The cafe wanted a menu that feels like a premium printed menu book, works on in-store tablets and customer phones, and lets customers order without waiting for staff.",
+  "เปิดเมนูบนแท็บเล็ตในร้าน หรือสแกน QR ในหน้าแรกเพื่อเปิดบนมือถือตัวเอง": "Open the menu on an in-store tablet, or scan the QR code on the welcome page to open it on your own phone.",
+  "ปัดพลิกหน้าเหมือนเปิดสมุดจริง เมนูแบ่งเป็นเครื่องดื่ม อาหาร และของหวาน รวมหลายสิบหมวดย่อย ตั้งแต่อาหารเช้า สเต๊ก ญี่ปุ่น ไปจนถึงอาหารไทย": "Swipe to flip pages like a real book. The menu covers drinks, food and desserts across dozens of sub-categories, from breakfast and steaks to Japanese and Thai dishes.",
+  "กดเพิ่มเมนูลงตะกร้า เลือกตัวเลือกย่อยได้ (เช่น แบบทะเล) ปรับจำนวน และเขียนหมายเหตุรายจาน เช่น ไม่ใส่ผัก เผ็ดน้อย": "Add dishes to the cart, pick options (such as seafood), change quantities, and write a note per dish, like \"no vegetables, mild\".",
+  "กดส่งออเดอร์ แอปสร้างข้อความสรุปรายการและราคารวม แล้วเปิด LINE Official Account ของร้านพร้อมข้อความนั้นให้กดส่งได้เลย": "Tap to order. The app writes a summary with items and total price, then opens the cafe's LINE Official Account with that message ready to send.",
+  "เขียนด้วย Flutter แล้ว build เป็นเว็บ ใช้ package page_flip ทำเอฟเฟกต์พลิกหน้า และ Google Fonts (Cinzel, Playfair Display, Lora) ให้ได้อารมณ์เมนูพรีเมียม": "Written in Flutter and built for the web, with the page_flip package for the page-turn effect and Google Fonts (Cinzel, Playfair Display, Lora) for a premium feel.",
+  "CartService ใช้ ChangeNotifier จัดการ state ของตะกร้า แยกรายการตามชื่อจานรวมกับตัวเลือก ถ้าสั่งซ้ำจะเพิ่มจำนวนแทนการเพิ่มบรรทัดใหม่": "CartService manages cart state with ChangeNotifier. Items are keyed by dish plus option, so ordering the same thing again raises the quantity instead of adding a new line.",
+  "ส่งออเดอร์ผ่าน deep link line://oaMessage และมีลิงก์ line.me เป็นทางสำรองเมื่อเครื่องไม่ได้ลง LINE": "Orders go through the line://oaMessage deep link, with a line.me web link as a fallback when LINE isn't installed.",
+  "ข้อมูลเมนูและราคาอยู่ในไฟล์เดียว (menu_data.dart) ร้านแก้ราคาหรือเพิ่มเมนูได้ง่าย": "All dishes and prices live in one file (menu_data.dart), so changing a price or adding a dish is easy.",
+  "ทุกครั้งที่ push, GitHub Actions จะ build และ deploy ขึ้น GitHub Pages ให้อัตโนมัติ ใช้งานฟรีและไม่มีวันหมดอายุ": "Every push triggers GitHub Actions to build and deploy to GitHub Pages, which is free and never expires.",
+  "เจ้าหน้าที่สาธารณสุขต้องลงพื้นที่ประเมินผู้สูงอายุที่มีภาวะพึ่งพิงด้วยแบบฟอร์มกระดาษ ข้อมูลกระจัดกระจาย สรุปสถิติยาก และแพทย์ติดตามผลหรือสั่งการดูแลต่อได้ช้า": "Public health staff assessed dependent elderly people with paper forms. Data was scattered, statistics were hard to compile, and doctors were slow to follow up or issue care plans.",
+  "เจ้าหน้าที่ (Staff) ลงทะเบียนผู้สูงอายุพร้อมที่อยู่และพิกัดบ้านบนแผนที่": "Staff register each elderly person with their address and home location on a map.",
+  "ทำแบบประเมินมาตรฐาน 3 ชุด: Barthel ADL (10 ด้าน), Care Giver (ข้อมูลผู้ดูแลกว่า 37 มิติ) และ TAI ระบบคิดคะแนนและจัดกลุ่มติดสังคม ติดบ้าน หรือติดเตียงให้อัตโนมัติ": "They complete three standard assessments: Barthel ADL (10 areas), Care Giver (37+ caregiver dimensions) and TAI. The system scores them and groups each person as socially active, homebound or bedridden.",
+  "แพทย์ (Doctor) ดูประวัติรายบุคคล แล้วออกคำสั่งการดูแล (Care Instruction) ส่งให้เจ้าหน้าที่": "Doctors review each person's history and send care instructions to staff.",
+  "เจ้าหน้าที่กดยืนยันรับทราบ สถานะเปลี่ยนจากรอยืนยันเป็นรับทราบแล้ว ทุกการกระทำถูกบันทึกใน audit log": "Staff acknowledge the instruction and its status changes from pending to acknowledged. Every action is recorded in an audit log.",
+  "ผู้ดูแลระบบ (Admin) จัดการผู้ใช้ ข่าวประกาศ และแบนเนอร์ ส่วนผู้บริหารดูแดชบอร์ดสถิติตามช่วงวัยและกลุ่มสุขภาพ แล้วออกรายงานเป็น PDF": "Admins manage users, news and banners. Managers see a dashboard by age range and health group and export PDF reports.",
+  "Laravel 10 แบบ MVC มี middleware แยกสิทธิ์ตามบทบาท (IsAdmin, IsStaff, IsDoctor) และ middleware เพิ่ม security header": "Laravel 10 MVC, with role middleware (IsAdmin, IsStaff, IsDoctor) and a middleware that adds security headers.",
+  "บันทึกข้อมูลหลายตารางใน DB::transaction() ถ้าพังกลางทางจะไม่เหลือข้อมูลครึ่งๆ กลางๆ และใช้ Soft Delete กับข้อมูลทางการแพทย์ เพื่อไม่ให้ประวัติหายถาวร": "Multi-table saves run inside DB::transaction() so a failure never leaves half-written data, and medical records use soft deletes so history is never lost.",
+  "ใช้ Eager Loading แก้ปัญหา N+1 query และ paginate ทุกตารางใหญ่แทนการดึงข้อมูลทั้งหมด": "Eager loading fixes N+1 queries, and every large table is paginated instead of loading everything.",
+  "สร้าง PDF ด้วย mPDF แสดงตารางด้วย DataTables และเขียนข่าวด้วย Quill Editor": "PDFs are generated with mPDF, tables use DataTables, and news posts are written in Quill Editor.",
+  "มี Dockerfile และคู่มือ deploy 4 แบบ: Railway, Docker, VPS และ cPanel": "Includes a Dockerfile and deploy guides for four targets: Railway, Docker, VPS and cPanel.",
+  "ฟอร์มแบบหลายขั้นตอนกดไปขั้นถัดไปไม่ได้ เพราะ JavaScript อ้างอิง element ID ที่ไม่มีอยู่จริง": "Multi-step forms could not move past step one because the JavaScript referenced element IDs that did not exist.",
+  "บั๊กที่เกิดเฉพาะบน Linux: Windows ไม่สนตัวพิมพ์เล็ก-ใหญ่ของชื่อไฟล์ แต่ Linux สน จึงเขียนสคริปต์ไล่ตรวจชื่อ view ทั้งระบบในครั้งเดียว": "A Linux-only bug: Windows ignores filename case but Linux does not, so I wrote a script that checked every view name in the codebase at once.",
+  "session หมดอายุแล้วขึ้น error 500 แทนที่จะพาไปหน้า login เพราะ route login ไม่ได้ตั้งชื่อไว้": "Expired sessions showed a 500 error instead of the login page because the login route had no name.",
+  "ทุกการแก้ยืนยันด้วยการ compile view ทั้งระบบ และทดสอบผ่าน HTTP จริงใน Docker": "Every fix was confirmed by compiling all views and testing over real HTTP inside Docker.",
+  "ฝึกสร้างระบบเว็บแบบ full-stack ที่แยก frontend กับ backend ชัดเจน มีระบบสมาชิก สิทธิ์ผู้ดูแล และขั้นตอนการจองที่ต้องเช็กข้อมูลให้ถูกต้องเหมือนระบบเช่ารถจริง": "A practice full-stack build with a clear frontend/backend split, user accounts, admin permissions, and a booking flow that validates data like a real rental system.",
+  "สมัครสมาชิกและล็อกอิน หน้าที่ต้องล็อกอินก่อน เช่น การจองและประวัติการเช่า จะพาไปหน้า login อัตโนมัติ": "Sign up and log in. Pages that need an account, like booking and rental history, send you to the login page automatically.",
+  "ดูรายการรถ ค้นหาและกรองตามที่ต้องการ แล้วกดเช่า": "Browse cars, search and filter, then rent one.",
+  "ดูประวัติการเช่าของตัวเองในหน้า My Rentals และยกเลิกรายการได้": "See your own rentals on the My Rentals page and cancel them.",
+  "แอดมินเพิ่ม แก้ไข และลบข้อมูลรถได้ ผู้ใช้ทั่วไปทำไม่ได้": "Admins can add, edit and delete cars; regular users cannot.",
+  "สลับภาษาไทย/อังกฤษได้ทั้งแอป": "Switch the whole app between Thai and English.",
+  "Frontend: React 19 + TypeScript + Vite ใช้ React Router และ Context แยกสถานะผู้ใช้ (AuthContext) กับภาษา (i18n)": "Frontend: React 19 + TypeScript + Vite, with React Router and separate contexts for the user (AuthContext) and language (i18n).",
+  "Backend: Express 5 แยก route เป็น auth, cars, rentals และ users เข้ารหัสรหัสผ่านด้วย bcrypt ส่ง JWT ผ่านคุกกี้ httpOnly": "Backend: Express 5 with auth, cars, rentals and users routes. Passwords are hashed with bcrypt and JWTs travel in an httpOnly cookie.",
+  "ฐานข้อมูล MySQL ใช้ stored procedure สำหรับสร้าง ดู และยกเลิกการเช่า ทำให้ logic สำคัญอยู่ที่ฐานข้อมูล": "MySQL stored procedures create, list and cancel rentals, keeping the core logic in the database.",
+  "ตรวจข้อมูลขาเข้าด้วย express-validator และใช้ middleware adminOnly กันไม่ให้ผู้ใช้ทั่วไปแก้ข้อมูลรถ ใส่ helmet และจำกัด CORS ให้เฉพาะ frontend": "express-validator checks input, an adminOnly middleware protects car management, helmet sets security headers, and CORS only allows the frontend.",
+  "CI บน GitHub Actions รัน lint, เช็ก format ด้วย Prettier และ build ทุกครั้งที่ push": "CI on GitHub Actions runs lint, a Prettier format check and a build on every push.",
   'Full-stack developer ที่ชอบทำซอฟต์แวร์ให้': 'Full-stack developer who builds software that',
   'ธุรกิจและชุมชนใช้งานได้จริง': 'real businesses and communities actually use',
   'ตั้งแต่ร้านคาเฟ่ ร้านมัทฉะ ระบบเช่ารถ ไปจนถึงระบบประเมินสุขภาพผู้สูงอายุสำหรับเจ้าหน้าที่สาธารณสุข ทำครบทั้งหน้าบ้าน หลังบ้าน ฐานข้อมูล และการ deploy': '— from a cafe and a matcha shop to car rentals and elderly health assessments for public health staff. I handle the frontend, backend, database and deployment.',
