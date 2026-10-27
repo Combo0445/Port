@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio of Thanaphat Aupaphong (Bell), full-stack developer.">
+<title>Thanaphat Aupaphong · Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a `git log --graph` read top to bottom. A coloured rail runs down the left; each project is a commit on it, newest first. */
+:root {
+  --bg: #F3F4F1;
+  --surface: #FFFFFF;
+  --ink: #15181D;
+  --muted: #5D6570;
+  --line: #D9DDD6;
+  --accent: #2742D6;
+  --b-matcha: #4C8A2B;
+  --b-car: #D2551E;
+  --b-astro: #B7861A;
+  --b-adl: #B4365A;
+  --chip: #E8EAE4;
+  --f-display: "Bricolage Grotesque", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans Thai", "Noto Sans Thai", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111317; --surface: #1A1D22; --ink: #ECEDE8; --muted: #9BA2AB; --line: #2C3038;
+    --accent: #8EA0FF; --b-matcha: #8BC766; --b-car: #F08A5A; --b-astro: #E6B84F; --b-adl: #EE7A9B;
+    --chip: #23272E; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111317; --surface: #1A1D22; --ink: #ECEDE8; --muted: #9BA2AB; --line: #2C3038;
+  --accent: #8EA0FF; --b-matcha: #8BC766; --b-car: #F08A5A; --b-astro: #E6B84F; --b-adl: #EE7A9B;
+  --chip: #23272E; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.7 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 56px 72px; display: grid; gap: 72px; }
+.mono { font-family: var(--f-mono); font-size: 13px; letter-spacing: 0; }
+
+/* ---------- Hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px 48px; align-items: end; }
+.prompt { color: var(--muted); margin: 0 0 18px; }
+.prompt b { color: var(--accent); font-weight: 600; }
+h1 {
+  font-family: var(--f-display); font-weight: 800; letter-spacing: -0.035em;
+  font-size: clamp(44px, 8vw, 92px); line-height: 0.95; margin: 0; text-wrap: balance;
+}
+h1 .nick { color: var(--accent); }
+.lede { max-width: 58ch; margin: 22px 0 0; font-size: 18px; color: var(--muted); }
+.lede strong { color: var(--ink); font-weight: 600; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+  padding: 10px 16px; border-radius: 999px; font-weight: 500; font-size: 15px;
+  border: 1px solid var(--line); background: var(--surface);
+  transition: border-color .15s, transform .15s;
+}
+.btn:hover { border-color: var(--ink); transform: translateY(-1px); }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.avatar {
+  width: 148px; height: 148px; border-radius: 28px; overflow: hidden;
+  border: 1px solid var(--line); background: var(--chip); justify-self: end;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* stat line, written like `git shortlog` output */
+.stats {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 32px;
+  border-top: 1px solid var(--line); padding-top: 18px; color: var(--muted);
+}
+.stats b { color: var(--ink); font-family: var(--f-display); font-size: 22px; font-weight: 700; margin-right: 6px; font-variant-numeric: tabular-nums; }
+
+/* ---------- Section heads ---------- */
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -0.02em; margin: 0; line-height: 1.15; }
+.sec-head .mono { color: var(--muted); }
+
+/* ---------- Graph log ---------- */
+.log { list-style: none; margin: 0; padding: 0; position: relative; }
+.log::before {
+  content: ""; position: absolute; left: 11px; top: 14px; bottom: 14px; width: 2px;
+  background: var(--line); border-radius: 2px;
+}
+.commit { position: relative; padding-left: 48px; padding-bottom: 48px; }
+.commit:last-child { padding-bottom: 0; }
+.commit::before {
+  content: ""; position: absolute; left: 4px; top: 8px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--bg); border: 4px solid var(--c);
+}
+.commit-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; color: var(--muted); margin-bottom: 10px; }
+.sha { color: var(--c); font-weight: 600; }
+.branch { border: 1px solid var(--c); color: var(--c); border-radius: 4px; padding: 0 6px; font-size: 12px; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); overflow: hidden;
+}
+.card-body { padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.card h3 { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; margin: 0; text-wrap: balance; }
+.card h3 small { display: block; font-family: var(--f-mono); font-weight: 400; font-size: 13px; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.card p { margin: 0; color: var(--muted); }
+.feat { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.feat li { padding-left: 20px; position: relative; font-size: 15px; line-height: 1.6; }
+.feat li::before { content: ""; position: absolute; left: 2px; top: .7em; width: 8px; height: 2px; background: var(--c); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-family: var(--f-mono); font-size: 12px; background: var(--chip); border-radius: 6px; padding: 3px 8px; }
+.card-links { display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 4px; }
+.card-links a { font-weight: 500; font-size: 15px; text-decoration: underline; text-decoration-color: var(--c); text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.card-links a:hover { color: var(--c); }
+
+/* preview panel: a small drawing of what the app shows */
+.preview {
+  background: color-mix(in srgb, var(--c) 12%, var(--bg));
+  border-left: 1px solid var(--line);
+  padding: 28px; display: grid; place-items: center; min-width: 0;
+}
+.mock { width: 100%; max-width: 300px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; font-size: 13px; line-height: 1.45; box-shadow: 0 10px 30px -18px color-mix(in srgb, var(--c) 70%, transparent); }
+.mock-title { font-weight: 600; font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; gap: 8px; }
+.mock-title span { color: var(--muted); font-weight: 400; font-family: var(--f-mono); font-size: 11px; }
+
+/* matcha: star histogram */
+.stars { color: var(--c); letter-spacing: 2px; font-size: 18px; }
+.hist { display: grid; gap: 5px; margin-top: 10px; }
+.hist div { display: grid; grid-template-columns: 14px 1fr; gap: 8px; align-items: center; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.hist i { display: block; height: 7px; border-radius: 4px; background: var(--c); }
+.review { border-top: 1px dashed var(--line); margin-top: 12px; padding-top: 10px; color: var(--muted); }
+
+/* car rental: car cards */
+.cars { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.car { border: 1px solid var(--line); border-radius: 10px; padding: 8px; }
+.car .shape { height: 34px; border-radius: 8px; background: color-mix(in srgb, var(--c) 22%, var(--surface)); margin-bottom: 6px; position: relative; }
+.car .shape::after { content: ""; position: absolute; left: 18%; right: 18%; top: 8px; height: 10px; border-radius: 6px 6px 2px 2px; background: color-mix(in srgb, var(--c) 45%, var(--surface)); }
+.car b { display: block; font-size: 12px; }
+.car span { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.lang-switch { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; font-family: var(--f-mono); font-size: 10px; }
+.lang-switch i { font-style: normal; padding: 1px 6px; }
+.lang-switch i:first-child { background: var(--c); color: var(--surface); }
+
+/* astrohouse: open menu book */
+.book { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; perspective: 600px; }
+.page { padding: 10px; display: grid; gap: 6px; align-content: start; }
+.page + .page { border-left: 1px solid var(--line); transform-origin: left center; transform: rotateY(-8deg); background: color-mix(in srgb, var(--c) 6%, var(--surface)); }
+.page h4 { margin: 0; font-family: var(--f-display); font-size: 12px; color: var(--c); text-transform: uppercase; letter-spacing: .08em; }
+.dish { display: flex; justify-content: space-between; gap: 6px; font-size: 11px; }
+.dish span:last-child { color: var(--muted); font-family: var(--f-mono); }
+.dish-img { height: 30px; border-radius: 5px; background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--c) 30%, var(--surface)) 0 6px, color-mix(in srgb, var(--c) 18%, var(--surface)) 6px 12px); }
+.cart-bar { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; background: var(--c); color: var(--surface); border-radius: 8px; padding: 6px 10px; font-weight: 600; font-size: 12px; }
+
+/* ADL: score table */
+.adl-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.adl-row:last-of-type { border-bottom: 0; }
+.adl-row .bar { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: var(--chip); overflow: hidden; }
+.adl-row .bar i { display: block; height: 100%; background: var(--c); }
+.score { font-family: var(--f-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+.pill { font-size: 10px; border-radius: 999px; padding: 1px 8px; border: 1px solid currentColor; }
+.pill.ok { color: var(--b-matcha); } .pill.home { color: var(--b-astro); } .pill.bed { color: var(--b-adl); }
+.roles { display: flex; gap: 6px; margin-top: 10px; }
+.roles span { font-family: var(--f-mono); font-size: 10px; background: var(--chip); border-radius: 5px; padding: 2px 6px; }
+
+/* ---------- Stack ---------- */
+.stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.stack > div { background: var(--surface); padding: 22px; display: grid; gap: 10px; align-content: start; }
+.stack h4 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+.stack ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.stack li { font-weight: 500; }
+.stack li span { color: var(--muted); font-weight: 400; font-size: 14px; }
+
+/* ---------- Contact ---------- */
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; border-top: 2px solid var(--ink); padding-top: 32px; }
+.contact p { margin: 8px 0 0; color: var(--muted); max-width: 52ch; }
+.email { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.email code { font-family: var(--f-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; user-select: all; }
+.copy { font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; background: var(--ink); color: var(--bg); border: 0; border-radius: 10px; padding: 11px 16px; }
+.copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+footer { color: var(--muted); }
+
+/* ---------- Language toggle ---------- */
+.lang {
+  position: fixed; z-index: 20;
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  display: inline-flex; padding: 3px; gap: 2px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: 0 6px 20px -12px rgba(0,0,0,.35);
+}
+.lang button {
+  font: 600 13px/1 var(--f-mono); color: var(--muted); cursor: pointer;
+  background: transparent; border: 0; border-radius: 999px; padding: 8px 12px;
+}
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .commit::before { animation: pop .5s cubic-bezier(.3,1.6,.5,1) both; animation-delay: calc(var(--i) * 110ms + 150ms); }
+  @keyframes pop { from { transform: scale(.3); } to { transform: scale(1); } }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .card { grid-template-columns: 1fr; }
+  .preview { border-left: 0; border-top: 1px solid var(--line); }
+  .stack { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .wrap { padding-block: 32px 48px; gap: 56px; }
+  .hero { grid-template-columns: 1fr; }
+  .avatar { grid-row: 1; justify-self: start; width: 84px; height: 84px; border-radius: 20px; }
+  .commit { padding-left: 34px; }
+  .log::before { left: 7px; }
+  .commit::before { left: 0; }
+  .card-body, .preview { padding: 20px; }
+  .stack { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="lang" role="group" aria-label="Language / ภาษา">
+  <button type="button" id="lang-th" data-lang="th" aria-pressed="true">TH</button>
+  <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <p class="prompt mono"><b>~/Combo0445</b> $ git log --oneline --graph</p>
+      <h1>Thanaphat<br>Aupaphong <span class="nick">· Bell</span></h1>
+      <p class="lede">Full-stack developer ที่ชอบทำซอฟต์แวร์ให้ <strong>ธุรกิจและชุมชนใช้งานได้จริง</strong> ตั้งแต่ร้านคาเฟ่ ร้านมัทฉะ ระบบเช่ารถ ไปจนถึงระบบประเมินสุขภาพผู้สูงอายุสำหรับเจ้าหน้าที่สาธารณสุข ทำครบทั้งหน้าบ้าน หลังบ้าน ฐานข้อมูล และการ deploy</p>
+      <div class="links">
+        <a class="btn primary" href="https://github.com/Combo0445" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/Combo0445
+        </a>
+        <a class="btn" href="#projects">ดูผลงาน</a>
+        <a class="btn" href="#contact">ติดต่อ</a>
+      </div>
+    </div>
+    <div class="avatar"><img src="data:image/png;base64,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HexgBzvYwQ52sIMd7GAHO9jBDnawgx3sYAc72MEOdrCDHexgBzvYwQ52sIMd7GAHO9jBDnawgx3sYAc72MHuJXbNbh0MAAAAIBDzt+4Rxs1iZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZEd2ZBeX3WU3dupABgAAAECYv3UcbZc47GAHO9jBDnawgx3sYAc72MEOdrCDHexgBzvYHbFrAPnGHKMSCj5OAAAAAElFTkSuQmCC" alt="รูปโปรไฟล์ GitHub ของ Combo0445"></div>
+    <div class="stats mono">
+      <span><b>4</b>repositories</span>
+      <span><b>262</b>commits</span>
+      <span><b>2</b>แอปที่ deploy แล้ว</span>
+    </div>
+  </header>
+
+  <section id="projects">
+    <div class="sec-head">
+      <h2>ผลงาน</h2>
+      <span class="mono">HEAD → main · เรียงตาม commit ล่าสุด</span>
+    </div>
+
+    <ol class="log">
+
+      <!-- matcha -->
+      <li class="commit" style="--c: var(--b-matcha); --i: 0">
+        <div class="commit-meta mono"><span class="sha">661ea4d</span><span class="branch">main</span><span>24 ส.ค. 2026</span><span>3 commits</span></div>
+        <article class="card">
+          <div class="card-body">
+            <h3>Matcha Kon Raeng Feedback<small>matcha-kon-raeng-feedback</small></h3>
+            <p>เว็บแอปเก็บรีวิวจากลูกค้าร้านมัทฉะคนแรง ลูกค้าสแกน QR บนออเดอร์ ให้ดาวและคอมเมนต์ได้ในไม่กี่วินาที เจ้าของร้านดูภาพรวมได้จากแดชบอร์ด</p>
+            <ul class="feat">
+              <li>ให้คะแนน 1–5 ดาว ใส่ชื่อได้แบบไม่บังคับ รีวิวแสดงต่อสาธารณะ</li>
+              <li>แดชบอร์ดเจ้าของร้าน: คะแนนเฉลี่ย กราฟกระจายคะแนน รีวิวทั้งหมด</li>
+              <li>หน้า admin ล็อกอินด้วย PIN และคุกกี้ที่เซ็นด้วย secret</li>
+              <li>Auto-deploy บน Railway ทุกครั้งที่ push ขึ้น main</li>
+            </ul>
+            <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">PostgreSQL</span><span class="tag">Vanilla JS</span><span class="tag">Railway</span></div>
+            <div class="card-links"><a href="https://github.com/Combo0445/matcha-kon-raeng-feedback" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
+          </div>
+          <div class="preview" aria-hidden="true">
+            <div class="mock">
+              <div class="mock-title">ภาพรวมรีวิว <span>/admin</span></div>
+              <div><span class="stars">★★★★★</span></div>
+              <div class="hist">
+                <div>5<i style="width: 82%"></i></div>
+                <div>4<i style="width: 46%"></i></div>
+                <div>3<i style="width: 18%"></i></div>
+                <div>2<i style="width: 6%"></i></div>
+                <div>1<i style="width: 3%"></i></div>
+              </div>
+              <div class="review">"มัทฉะเข้มกำลังดี ส่งไว" — ลูกค้า</div>
+            </div>
+          </div>
+        </article>
+      </li>
+
+      <!-- AstroHouse -->
+      <li class="commit" style="--c: var(--b-astro); --i: 1">
+        <div class="commit-meta mono"><span class="sha">733c7f0</span><span class="branch">main</span><span>24 ส.ค. 2026</span><span>38 commits</span></div>
+        <article class="card">
+          <div class="card-body">
+            <h3>Astrohouse Cafe เมนูดิจิทัล<small>AstroHouse</small></h3>
+            <p>สมุดเมนูดิจิทัลของคาเฟ่ที่พลิกหน้าได้เหมือนเมนูจริง ลูกค้าเลือกอาหารใส่ตะกร้า เขียนหมายเหตุ แล้วส่งออเดอร์เป็นข้อความ LINE ไปที่ร้าน</p>
+            <ul class="feat">
+              <li>เอฟเฟกต์พลิกหน้าสมุดเมนู แบ่งหมวดของคาว ของหวาน และเครื่องดื่ม</li>
+              <li>ตะกร้าสินค้าพร้อมหมายเหตุต่อออเดอร์ และ QR code</li>
+              <li>สร้างข้อความสั่งอาหารส่งเข้า LINE ของร้าน</li>
+              <li>Build เป็น Flutter Web แล้ว deploy ขึ้น GitHub Pages อัตโนมัติผ่าน GitHub Actions</li>
+            </ul>
+            <div class="tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">page_flip</span><span class="tag">GitHub Pages</span><span class="tag">GitHub Actions</span></div>
+            <div class="card-links">
+              <a href="https://combo0445.github.io/AstroHouse/" target="_blank" rel="noopener">เปิดเว็บจริง ↗</a>
+              <a href="https://github.com/Combo0445/AstroHouse" target="_blank" rel="noopener">ดูโค้ด ↗</a>
+            </div>
+          </div>
+          <div class="preview" aria-hidden="true">
+            <div class="mock">
+              <div class="mock-title">Astrohouse Cafe <span>menu</span></div>
+              <div class="book">
+                <div class="page">
+                  <h4>Dessert</h4>
+                  <div class="dish-img"></div>
+                  <div class="dish"><span>ASTRO Honey Toast</span><span>+</span></div>
+                  <div class="dish"><span>Strawberry crepe</span><span>+</span></div>
+                </div>
+                <div class="page">
+                  <h4>Japanese</h4>
+                  <div class="dish-img"></div>
+                  <div class="dish"><span>Niku Udon</span><span>+</span></div>
+                  <div class="dish"><span>Curry rice</span><span>+</span></div>
+                </div>
+              </div>
+              <div class="cart-bar"><span>ตะกร้า · 3 รายการ</span><span>ส่งทาง LINE →</span></div>
+            </div>
+          </div>
+        </article>
+      </li>
+
+      <!-- Project_finish -->
+      <li class="commit" style="--c: var(--b-adl); --i: 2">
+        <div class="commit-meta mono"><span class="sha">5aec997</span><span class="branch">main</span><span>23 ส.ค. 2026</span><span>217 commits</span></div>
+        <article class="card">
+          <div class="card-body">
+            <h3>ระบบประเมินผู้สูงอายุที่มีภาวะพึ่งพิง<small>Project_finish</small></h3>
+            <p>เว็บแอปที่เปลี่ยนแบบประเมินสุขภาพผู้สูงอายุจากกระดาษเป็นดิจิทัล ให้เจ้าหน้าที่สาธารณสุขลงพื้นที่เก็บข้อมูล และให้แพทย์สั่งแผนการดูแลต่อได้ในระบบเดียว</p>
+            <ul class="feat">
+              <li>แบบประเมินมาตรฐาน 3 ชุด: Barthel ADL, Care Giver (กว่า 37 มิติ) และ TAI จัดกลุ่มติดสังคม/ติดบ้าน/ติดเตียงอัตโนมัติ</li>
+              <li>สิทธิ์ตามบทบาท Admin, Staff และ Doctor พร้อม audit log</li>
+              <li>แพทย์ออกคำสั่งการดูแล (Care Instruction) และติดตามสถานะการรับทราบ</li>
+              <li>แดชบอร์ดสถิติ แผนที่ตำแหน่งผู้สูงอายุ และออกรายงาน PDF</li>
+            </ul>
+            <div class="tags"><span class="tag">Laravel 10</span><span class="tag">PHP 8.1</span><span class="tag">MySQL 8</span><span class="tag">Bootstrap</span><span class="tag">DataTables</span><span class="tag">mPDF</span><span class="tag">Docker</span></div>
+            <div class="card-links"><a href="https://github.com/Combo0445/Project_finish" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
+          </div>
+          <div class="preview" aria-hidden="true">
+            <div class="mock">
+              <div class="mock-title">Barthel ADL <span>เต็ม 20</span></div>
+              <div class="adl-row"><span>ผู้สูงอายุ ก.</span><span class="score">18/20 <span class="pill ok">ติดสังคม</span></span><div class="bar"><i style="width: 90%"></i></div></div>
+              <div class="adl-row"><span>ผู้สูงอายุ ข.</span><span class="score">9/20 <span class="pill home">ติดบ้าน</span></span><div class="bar"><i style="width: 45%"></i></div></div>
+              <div class="adl-row"><span>ผู้สูงอายุ ค.</span><span class="score">3/20 <span class="pill bed">ติดเตียง</span></span><div class="bar"><i style="width: 15%"></i></div></div>
+              <div class="roles"><span>admin</span><span>staff</span><span>doctor</span></div>
+            </div>
+          </div>
+        </article>
+      </li>
+      <!-- rc_rent -->
+      <li class="commit" style="--c: var(--b-car); --i: 3">
+        <div class="commit-meta mono"><span class="sha">f674915</span><span class="branch">dev</span><span>28 พ.ค. 2026</span><span>4 commits</span></div>
+        <article class="card">
+          <div class="card-body">
+            <h3>RC Rent ระบบเช่ารถ<small>rc_rent</small></h3>
+            <p>เว็บแอปเช่ารถแบบ full-stack แยก frontend React กับ REST API ที่เขียนด้วย Express ผู้ใช้ค้นหารถ จอง และดูประวัติการเช่าของตัวเองได้</p>
+            <ul class="feat">
+              <li>สมัครสมาชิก ล็อกอิน และหน้าที่ต้องล็อกอินก่อนเข้า (Protected Route)</li>
+              <li>ค้นหาและกรองรถ จองรถ ดูประวัติการเช่า หน้าโปรไฟล์</li>
+              <li>หลังบ้านสำหรับแอดมินจัดการรถ พร้อม middleware ตรวจสิทธิ์และตรวจข้อมูลขาเข้า</li>
+              <li>สลับภาษาไทย/อังกฤษ และ CI ด้วย GitHub Actions</li>
+            </ul>
+            <div class="tags"><span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">React Router</span><span class="tag">Express</span><span class="tag">GitHub Actions</span></div>
+            <div class="card-links"><a href="https://github.com/Combo0445/rc_rent" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
+          </div>
+          <div class="preview" aria-hidden="true">
+            <div class="mock">
+              <div class="mock-title">รถที่พร้อมให้เช่า <span class="lang-switch"><i>TH</i><i>EN</i></span></div>
+              <div class="cars">
+                <div class="car"><div class="shape"></div><b>Toyota Yaris</b><span>฿900/วัน</span></div>
+                <div class="car"><div class="shape"></div><b>Honda City</b><span>฿1,100/วัน</span></div>
+                <div class="car"><div class="shape"></div><b>Isuzu D-Max</b><span>฿1,500/วัน</span></div>
+                <div class="car"><div class="shape"></div><b>Toyota Fortuner</b><span>฿2,200/วัน</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </li>
+
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>เครื่องมือที่ใช้</h2>
+      <span class="mono">รวบรวมจากทั้ง 4 repo</span>
+    </div>
+    <div class="stack">
+      <div>
+        <h4>Frontend</h4>
+        <ul><li>React <span>+ TypeScript</span></li><li>Flutter Web <span>/ Dart</span></li><li>Blade <span>+ Bootstrap, jQuery</span></li><li>HTML, CSS, JavaScript</li></ul>
+      </div>
+      <div>
+        <h4>Backend</h4>
+        <ul><li>Laravel <span>/ PHP</span></li><li>Node.js <span>+ Express</span></li><li>REST API</li><li>Auth และสิทธิ์ตามบทบาท</li></ul>
+      </div>
+      <div>
+        <h4>Database</h4>
+        <ul><li>MySQL</li><li>PostgreSQL</li><li>ออกแบบ schema เชิงสัมพันธ์</li></ul>
+      </div>
+      <div>
+        <h4>Deploy & Tools</h4>
+        <ul><li>Docker</li><li>GitHub Actions</li><li>Railway</li><li>GitHub Pages</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div>
+      <h2>สนใจร่วมงานกัน?</h2>
+      <p>ยินดีคุยเรื่องงาน ฝึกงาน หรือโปรเจกต์ที่อยากให้ช่วยทำ ส่งอีเมลมาได้เลยครับ</p>
+    </div>
+    <div class="email">
+      <code id="email">bell230445@gmail.com</code>
+      <button class="copy" id="copy" type="button">คัดลอก</button>
+    </div>
+  </section>
+
+  <footer class="mono">© 2026 Thanaphat Aupaphong · Combo0445</footer>
+</div>
+
+<script>
+// Thai text on the page is the source; each text node is looked up here by its trimmed content.
+const EN = {
+  'Full-stack developer ที่ชอบทำซอฟต์แวร์ให้': 'Full-stack developer who builds software that',
+  'ธุรกิจและชุมชนใช้งานได้จริง': 'real businesses and communities actually use',
+  'ตั้งแต่ร้านคาเฟ่ ร้านมัทฉะ ระบบเช่ารถ ไปจนถึงระบบประเมินสุขภาพผู้สูงอายุสำหรับเจ้าหน้าที่สาธารณสุข ทำครบทั้งหน้าบ้าน หลังบ้าน ฐานข้อมูล และการ deploy': '— from a cafe and a matcha shop to car rentals and elderly health assessments for public health staff. I handle the frontend, backend, database and deployment.',
+  'ดูผลงาน': 'View projects',
+  'ติดต่อ': 'Contact',
+  'แอปที่ deploy แล้ว': 'apps deployed',
+  'ผลงาน': 'Projects',
+  'HEAD → main · เรียงตาม commit ล่าสุด': 'HEAD → main · sorted by latest commit',
+  '24 ส.ค. 2026': '24 Aug 2026',
+  '23 ส.ค. 2026': '23 Aug 2026',
+  '28 พ.ค. 2026': '28 May 2026',
+  'เว็บแอปเก็บรีวิวจากลูกค้าร้านมัทฉะคนแรง ลูกค้าสแกน QR บนออเดอร์ ให้ดาวและคอมเมนต์ได้ในไม่กี่วินาที เจ้าของร้านดูภาพรวมได้จากแดชบอร์ด': 'A feedback app for the Matcha Kon Raeng shop. Customers scan the QR code on their order and leave a star rating and comment in seconds. The owner sees the overall picture on a dashboard.',
+  'ให้คะแนน 1–5 ดาว ใส่ชื่อได้แบบไม่บังคับ รีวิวแสดงต่อสาธารณะ': '1–5 star ratings with an optional name; reviews are shown publicly',
+  'แดชบอร์ดเจ้าของร้าน: คะแนนเฉลี่ย กราฟกระจายคะแนน รีวิวทั้งหมด': 'Owner dashboard: average score, rating distribution chart, all reviews',
+  'หน้า admin ล็อกอินด้วย PIN และคุกกี้ที่เซ็นด้วย secret': 'Admin area protected by a PIN and a signed cookie',
+  'Auto-deploy บน Railway ทุกครั้งที่ push ขึ้น main': 'Auto-deploys to Railway on every push to main',
+  'ดูโค้ด ↗': 'View code ↗',
+  'ภาพรวมรีวิว': 'Review summary',
+  '"มัทฉะเข้มกำลังดี ส่งไว" — ลูกค้า': '"Perfectly strong matcha, fast delivery" — customer',
+  'Astrohouse Cafe เมนูดิจิทัล': 'Astrohouse Cafe Digital Menu',
+  'สมุดเมนูดิจิทัลของคาเฟ่ที่พลิกหน้าได้เหมือนเมนูจริง ลูกค้าเลือกอาหารใส่ตะกร้า เขียนหมายเหตุ แล้วส่งออเดอร์เป็นข้อความ LINE ไปที่ร้าน': 'A digital menu book for a cafe that flips like a real one. Customers add dishes to a cart, write notes, and send the order to the shop as a LINE message.',
+  'เอฟเฟกต์พลิกหน้าสมุดเมนู แบ่งหมวดของคาว ของหวาน และเครื่องดื่ม': 'Page-flip menu book with food, dessert and drink sections',
+  'ตะกร้าสินค้าพร้อมหมายเหตุต่อออเดอร์ และ QR code': 'Cart with per-order notes and a QR code',
+  'สร้างข้อความสั่งอาหารส่งเข้า LINE ของร้าน': 'Builds an order message and sends it to the shop on LINE',
+  'Build เป็น Flutter Web แล้ว deploy ขึ้น GitHub Pages อัตโนมัติผ่าน GitHub Actions': 'Built with Flutter Web and auto-deployed to GitHub Pages through GitHub Actions',
+  'เปิดเว็บจริง ↗': 'Open live site ↗',
+  'ตะกร้า · 3 รายการ': 'Cart · 3 items',
+  'ส่งทาง LINE →': 'Send via LINE →',
+  'ระบบประเมินผู้สูงอายุที่มีภาวะพึ่งพิง': 'Dependent Elderly Assessment System',
+  'เว็บแอปที่เปลี่ยนแบบประเมินสุขภาพผู้สูงอายุจากกระดาษเป็นดิจิทัล ให้เจ้าหน้าที่สาธารณสุขลงพื้นที่เก็บข้อมูล และให้แพทย์สั่งแผนการดูแลต่อได้ในระบบเดียว': 'A web app that moves elderly health assessments from paper to digital. Public health staff collect data in the field, and doctors issue care plans in the same system.',
+  'แบบประเมินมาตรฐาน 3 ชุด: Barthel ADL, Care Giver (กว่า 37 มิติ) และ TAI จัดกลุ่มติดสังคม/ติดบ้าน/ติดเตียงอัตโนมัติ': 'Three standard assessments: Barthel ADL, Care Giver (37+ dimensions) and TAI, with automatic grouping into socially active, homebound and bedridden',
+  'สิทธิ์ตามบทบาท Admin, Staff และ Doctor พร้อม audit log': 'Role-based access for Admin, Staff and Doctor, with an audit log',
+  'แพทย์ออกคำสั่งการดูแล (Care Instruction) และติดตามสถานะการรับทราบ': 'Doctors issue care instructions and track when staff acknowledge them',
+  'แดชบอร์ดสถิติ แผนที่ตำแหน่งผู้สูงอายุ และออกรายงาน PDF': 'Statistics dashboard, a map of elderly residents, and PDF reports',
+  'เต็ม 20': 'out of 20',
+  'ผู้สูงอายุ ก.': 'Resident A',
+  'ผู้สูงอายุ ข.': 'Resident B',
+  'ผู้สูงอายุ ค.': 'Resident C',
+  'ติดสังคม': 'Social',
+  'ติดบ้าน': 'Homebound',
+  'ติดเตียง': 'Bedridden',
+  'RC Rent ระบบเช่ารถ': 'RC Rent Car Rental',
+  'เว็บแอปเช่ารถแบบ full-stack แยก frontend React กับ REST API ที่เขียนด้วย Express ผู้ใช้ค้นหารถ จอง และดูประวัติการเช่าของตัวเองได้': 'A full-stack car rental app with a React frontend and a REST API written in Express. Users search for cars, book them, and see their own rental history.',
+  'สมัครสมาชิก ล็อกอิน และหน้าที่ต้องล็อกอินก่อนเข้า (Protected Route)': 'Sign up, log in, and pages that require login (protected routes)',
+  'ค้นหาและกรองรถ จองรถ ดูประวัติการเช่า หน้าโปรไฟล์': 'Search and filter cars, book a car, rental history, profile page',
+  'หลังบ้านสำหรับแอดมินจัดการรถ พร้อม middleware ตรวจสิทธิ์และตรวจข้อมูลขาเข้า': 'Admin area for managing cars, with middleware for permissions and input validation',
+  'สลับภาษาไทย/อังกฤษ และ CI ด้วย GitHub Actions': 'Thai/English language switch and CI with GitHub Actions',
+  'รถที่พร้อมให้เช่า': 'Available cars',
+  '฿900/วัน': '฿900/day',
+  '฿1,100/วัน': '฿1,100/day',
+  '฿1,500/วัน': '฿1,500/day',
+  '฿2,200/วัน': '฿2,200/day',
+  'เครื่องมือที่ใช้': 'Tools I use',
+  'รวบรวมจากทั้ง 4 repo': 'collected from all 4 repos',
+  'Auth และสิทธิ์ตามบทบาท': 'Auth and role-based access',
+  'ออกแบบ schema เชิงสัมพันธ์': 'Relational schema design',
+  'สนใจร่วมงานกัน?': 'Want to work together?',
+  'ยินดีคุยเรื่องงาน ฝึกงาน หรือโปรเจกต์ที่อยากให้ช่วยทำ ส่งอีเมลมาได้เลยครับ': "I'm happy to talk about jobs, internships, or a project you need help with. Send me an email.",
+};
+const UI = {
+  th: { copy: 'คัดลอก', copied: 'คัดลอกแล้ว', manual: 'กด Ctrl+C', alt: 'รูปโปรไฟล์ GitHub ของ Combo0445' },
+  en: { copy: 'Copy', copied: 'Copied', manual: 'Press Ctrl+C', alt: 'GitHub profile picture of Combo0445' },
+};
+
+const nodes = [];
+const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+while (walker.nextNode()) {
+  const n = walker.currentNode;
+  const key = n.nodeValue.trim();
+  if (EN[key]) nodes.push({ n, th: n.nodeValue, en: n.nodeValue.replace(key, EN[key]) });
+}
+
+const copyBtn = document.getElementById('copy');
+const avatar = document.querySelector('.avatar img');
+let lang = 'th';
+
+function setLang(next) {
+  lang = next;
+  for (const t of nodes) t.n.nodeValue = t[lang];
+  copyBtn.textContent = UI[lang].copy;
+  avatar.alt = UI[lang].alt;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  try { localStorage.setItem('lang', lang); } catch {}
+}
+
+document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+let saved = null;
+try { saved = localStorage.getItem('lang'); } catch {}
+setLang(saved === 'en' ? 'en' : 'th');
+
+copyBtn.addEventListener('click', async () => {
+  const text = document.getElementById('email').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    copyBtn.textContent = UI[lang].copied;
+  } catch {
+    const r = document.createRange();
+    r.selectNodeContents(document.getElementById('email'));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    copyBtn.textContent = UI[lang].manual;
+  }
+  setTimeout(() => { copyBtn.textContent = UI[lang].copy; }, 1800);
+});
+</script>
+</body>
+</html>
