@@ -112,9 +112,9 @@ h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 3.4
 
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
-  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr); overflow: hidden;
 }
-.card-body { padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.card-body { padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; max-width: 760px; }
 .card h3 { font-family: var(--f-display); font-weight: 700; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; margin: 0; text-wrap: balance; }
 .card h3 small { display: block; font-family: var(--f-mono); font-weight: 400; font-size: 13px; color: var(--muted); letter-spacing: 0; margin-top: 4px; }
 .card p { margin: 0; color: var(--muted); }
@@ -288,20 +288,6 @@ footer { color: var(--muted); }
             <div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">PostgreSQL</span><span class="tag">Vanilla JS</span><span class="tag">Railway</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/matcha-kon-raeng-feedback" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
           </div>
-          <div class="preview" aria-hidden="true">
-            <div class="mock">
-              <div class="mock-title">ภาพรวมรีวิว <span>/admin</span></div>
-              <div><span class="stars">★★★★★</span></div>
-              <div class="hist">
-                <div>5<i style="width: 82%"></i></div>
-                <div>4<i style="width: 46%"></i></div>
-                <div>3<i style="width: 18%"></i></div>
-                <div>2<i style="width: 6%"></i></div>
-                <div>1<i style="width: 3%"></i></div>
-              </div>
-              <div class="review">"มัทฉะเข้มกำลังดี ส่งไว" — ลูกค้า</div>
-            </div>
-          </div>
         </article>
       </li>
 
@@ -324,26 +310,6 @@ footer { color: var(--muted); }
               <a href="https://github.com/Combo0445/AstroHouse" target="_blank" rel="noopener">ดูโค้ด ↗</a>
             </div>
           </div>
-          <div class="preview" aria-hidden="true">
-            <div class="mock">
-              <div class="mock-title">Astrohouse Cafe <span>menu</span></div>
-              <div class="book">
-                <div class="page">
-                  <h4>Dessert</h4>
-                  <div class="dish-img"></div>
-                  <div class="dish"><span>ASTRO Honey Toast</span><span>+</span></div>
-                  <div class="dish"><span>Strawberry crepe</span><span>+</span></div>
-                </div>
-                <div class="page">
-                  <h4>Japanese</h4>
-                  <div class="dish-img"></div>
-                  <div class="dish"><span>Niku Udon</span><span>+</span></div>
-                  <div class="dish"><span>Curry rice</span><span>+</span></div>
-                </div>
-              </div>
-              <div class="cart-bar"><span>ตะกร้า · 3 รายการ</span><span>ส่งทาง LINE →</span></div>
-            </div>
-          </div>
         </article>
       </li>
 
@@ -363,15 +329,6 @@ footer { color: var(--muted); }
             <div class="tags"><span class="tag">Laravel 10</span><span class="tag">PHP 8.1</span><span class="tag">MySQL 8</span><span class="tag">Bootstrap</span><span class="tag">DataTables</span><span class="tag">mPDF</span><span class="tag">Docker</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/Project_finish" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
           </div>
-          <div class="preview" aria-hidden="true">
-            <div class="mock">
-              <div class="mock-title">Barthel ADL <span>เต็ม 20</span></div>
-              <div class="adl-row"><span>ผู้สูงอายุ ก.</span><span class="score">18/20 <span class="pill ok">ติดสังคม</span></span><div class="bar"><i style="width: 90%"></i></div></div>
-              <div class="adl-row"><span>ผู้สูงอายุ ข.</span><span class="score">9/20 <span class="pill home">ติดบ้าน</span></span><div class="bar"><i style="width: 45%"></i></div></div>
-              <div class="adl-row"><span>ผู้สูงอายุ ค.</span><span class="score">3/20 <span class="pill bed">ติดเตียง</span></span><div class="bar"><i style="width: 15%"></i></div></div>
-              <div class="roles"><span>admin</span><span>staff</span><span>doctor</span></div>
-            </div>
-          </div>
         </article>
       </li>
       <!-- rc_rent -->
@@ -389,17 +346,6 @@ footer { color: var(--muted); }
             </ul>
             <div class="tags"><span class="tag">React 19</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">React Router</span><span class="tag">Express</span><span class="tag">GitHub Actions</span></div>
             <div class="card-links"><a href="https://github.com/Combo0445/rc_rent" target="_blank" rel="noopener">ดูโค้ด ↗</a></div>
-          </div>
-          <div class="preview" aria-hidden="true">
-            <div class="mock">
-              <div class="mock-title">รถที่พร้อมให้เช่า <span class="lang-switch"><i>TH</i><i>EN</i></span></div>
-              <div class="cars">
-                <div class="car"><div class="shape"></div><b>Toyota Yaris</b><span>฿900/วัน</span></div>
-                <div class="car"><div class="shape"></div><b>Honda City</b><span>฿1,100/วัน</span></div>
-                <div class="car"><div class="shape"></div><b>Isuzu D-Max</b><span>฿1,500/วัน</span></div>
-                <div class="car"><div class="shape"></div><b>Toyota Fortuner</b><span>฿2,200/วัน</span></div>
-              </div>
-            </div>
           </div>
         </article>
       </li>
